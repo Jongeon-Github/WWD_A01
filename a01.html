@@ -1,9 +1,160 @@
-<!DOCTYPE html>
 <html>
+<!--
+ Filename: a01.html
+ Project: Assignment 1
+ By: Jongeon Lee
+ Student number: 8790144
+ Date: Sep 30, 2023
+ Description: This is a simple Hi-Lo guessing game where the player enters their name and sets
+              the maximum guess number. They then try to guess a random number within a given range.
+              If they guess correctly, they win. The game allows the player to play again.
+-->
 <head>
-    <title>Initial</title>
+    <meta charset="UTF-8">
+    <title>Welcome Hi-Lo game</title>
+
+    <script type="text/javascript">
+
+        var playerName = "";
+        var maxGuess = 0;
+        var randomNumber = 0;
+        var minRange = 1;
+        var maxRange = 0;
+
+        // ------------------------------------------------------------
+        //  Set the user input name
+        // ------------------------------------------------------------
+        function setInputName() {
+            const inputName = document.getElementById("inputName").value;
+            if (inputName == "") {
+                document.getElementById("nameError").innerHTML = "Player's name cannot be blank.";
+            }
+            else {
+                playerName = inputName;
+                document.getElementById("initialPage").style.display = "none";
+                document.getElementById("maxSetPage").style.display = "block";
+                document.getElementById("userNameSpan").textContent = playerName;
+            }
+        }
+
+        // ------------------------------------------------------------
+        //  Calculate a random value between the minimum and maximum values
+        // ------------------------------------------------------------
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // ------------------------------------------------------------
+        //  Set to the maximum value of guesses.
+        // ------------------------------------------------------------
+        function setMaxGuess() {
+            let inputNum = document.getElementById("inputNum").value;
+
+            if (isNaN(inputNum) || inputNum <= 1) {
+                document.getElementById("numError").innerHTML = "Please enter a valid number or greater than 1.";
+            }
+            else {
+                maxGuess = parseInt(inputNum);
+                maxRange = maxGuess;
+                randomNumber = getRandomNumber(minRange, maxRange);
+                console.log("randomNumber: ", randomNumber);
+
+                document.getElementById("maxSetPage").style.display = "none";
+                document.getElementById("guessPage").style.display = "block";
+                document.getElementById("guessRange").innerHTML = "Your allowable range is " + minRange + " to " + maxRange + ".";
+            }
+        }
+
+        // ------------------------------------------------------------
+        //  Check if user guessed input is correct.
+        // ------------------------------------------------------------
+        function makeGuess() {
+            let userGuess = document.getElementById("guessNum").value;
+            userGuess = parseInt(userGuess);
+            if (isNaN(userGuess) || userGuess === "") {
+                document.getElementById("guessError").innerHTML = "Please enter a valid number.";
+            }
+            else if (userGuess < minRange || userGuess > maxRange) {
+                document.getElementById("guessError").innerHTML = "Your guess is out of the allowable range.";
+
+            }
+            else {
+                if (userGuess == randomNumber) {
+                    document.body.style.backgroundColor = "blue";
+                    document.getElementById("guessPage").style.display = "none";
+                    document.getElementById("winPage").style.display = "block";
+                }
+                else if (userGuess < randomNumber) {
+                    minRange = userGuess + 1;
+                    document.getElementById("guessRange").innerHTML = "Your allowable range is " + minRange + " to " + maxRange + ".";
+                }
+                else if (userGuess > randomNumber) {
+                    maxRange = userGuess - 1;
+                    document.getElementById("guessRange").innerHTML = "Your allowable range is " + minRange + " to " + maxRange + ".";
+                }
+                else {
+                    document.getElementById("guessError").innerHTML = "Your guess is out of the allowable range.";
+                }
+            }
+            document.getElementById("guessNum").value = ""
+        }
+
+        // ------------------------------------------------------------
+        //  Reset function.
+        // ------------------------------------------------------------
+        function playAgain() {
+            playerName = "";
+            maxGuess = 0;
+            randomNumber = 0;
+            minRange = 1;
+            maxRange = 0;
+            document.getElementById("winPage").style.display = "none";
+            document.getElementById("initialPage").style.display = "block";
+            document.body.style.backgroundColor = "white";
+            document.getElementById("inputName").value = ""
+            document.getElementById("inputNum").value = ""
+            document.getElementById("guessNum").value = ""
+
+        }
+
+    </script>
 </head>
+
+<!--
+  1. 'initialPage': Where the player enters their name.
+  2. 'maxSetPage': Player sets the max guess number.
+  3. 'guessPage': Main gameplay area.
+  4. 'winPage': Displayed when the player wins.
+-->
+
 <body>
+
+    <div id="initialPage" style=" text-align: center;">
+        <p><h1>Let`s Play Hi-Lo</h1></p>
+        <p>Please enter your name: <input type="text" id="inputName" /> </p>
+        <p><button onclick="setInputName()">Submit</button></p>
+        <p class="error" id="nameError" style="color: red;"></p>
+    </div>
+
+    <div id="maxSetPage" style=" text-align: center; display: none;">
+        <p><h1>Welcome, <span id="userNameSpan"></span>!</h1></p>
+        <p>What is the maximum guess number (greater than 1) <input type="number" id="inputNum"></p>
+        <p><button onclick="setMaxGuess()">Submit</button></p>
+        <p class="error" id="numError" style="color: red;"></p>
+    </div>
+
+    <div id="guessPage" style=" text-align: center; display: none;">
+        <p><h1>We`re playing Hi-Lo</h1></p>
+        <p>Enter your guess <input type="number" id="guessNum"></p>
+        <p><button onclick="makeGuess()">Make this Guess</button></p>
+        <p id="guessRange"></p>
+        <p class="error" id="guessError" style="color: red;"></p>
+    </div>
+
+    <div id="winPage" style=" text-align: center; display: none; color: white;">
+        <p><h1>You Win!! You guessed the number!!</h1></p>
+        <p><button onclick="playAgain()">playAgain</button></p>
+    </div>
 
 </body>
 </html>
