@@ -49,7 +49,6 @@
         // ------------------------------------------------------------
         function setMaxGuess() {
             let inputNum = document.getElementById("inputNum").value;
-
             if (isNaN(inputNum) || inputNum <= 1) {
                 document.getElementById("numError").innerHTML = "Please enter a valid number or greater than 1.";
             }
@@ -57,7 +56,7 @@
                 maxGuess = parseInt(inputNum);
                 maxRange = maxGuess;
                 randomNumber = getRandomNumber(minRange, maxRange);
-                console.log("randomNumber: ", randomNumber);
+                console.log("randomNumber: ", randomNumber);  // checking random number in console window
 
                 document.getElementById("maxSetPage").style.display = "none";
                 document.getElementById("guessPage").style.display = "block";
@@ -71,6 +70,7 @@
         function makeGuess() {
             let userGuess = document.getElementById("guessNum").value;
             userGuess = parseInt(userGuess);
+
             if (isNaN(userGuess) || userGuess === "") {
                 document.getElementById("guessError").innerHTML = "Please enter a valid number.";
             }
@@ -103,18 +103,23 @@
         //  Reset function.
         // ------------------------------------------------------------
         function playAgain() {
+            // game configuration reset
             playerName = "";
             maxGuess = 0;
             randomNumber = 0;
             minRange = 1;
             maxRange = 0;
             document.getElementById("winPage").style.display = "none";
-            document.getElementById("initialPage").style.display = "block";
+            document.getElementById("maxSetPage").style.display = "block";
             document.body.style.backgroundColor = "white";
             document.getElementById("inputName").value = ""
             document.getElementById("inputNum").value = ""
             document.getElementById("guessNum").value = ""
 
+            // error test reset
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("numError").textContent = "";
+            document.getElementById("guessError").textContent = "";
         }
 
     </script>
@@ -126,7 +131,6 @@
   3. 'guessPage': Main gameplay area.
   4. 'winPage': Displayed when the player wins.
 -->
-
 <body>
 
     <div id="initialPage" style=" text-align: center;">
