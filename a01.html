@@ -49,7 +49,7 @@
         // ------------------------------------------------------------
         function setMaxGuess() {
             let inputNum = document.getElementById("inputNum").value;
-            if (isNaN(inputNum) || inputNum <= 1) {
+            if (isNaN(inputNum) || inputNum <= 1 || !Number.isInteger(parseFloat(inputNum)) ) {
                 document.getElementById("numError").innerHTML = "Please enter a valid number or greater than 1.";
             }
             else {
